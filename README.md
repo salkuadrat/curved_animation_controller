@@ -24,6 +24,5 @@ You should then run `flutter packages upgrade` or update your packages in Intell
 
 There is a pretty sweet example project in the `example` folder. Check it out. Otherwise, keep reading to get up and running.
 
-## Setting up
-
 ## Using
+
