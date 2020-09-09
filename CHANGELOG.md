@@ -5,3 +5,7 @@
 ## [0.0.2] - 09 Sept 2020
 
 * Add nice examples
+
+## [0.0.3] - 09 Sept 2020
+
+* Add demo.gif
