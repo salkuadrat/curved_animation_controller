@@ -14,8 +14,8 @@ dependencies:
 You can also reference the git repo directly if you want:
 ```yaml
 dependencies:
- fluro:
-   git: git://github.com/salkuadrat/curved_animation_controller.git
+  curved_animation_controller:
+    git: git://github.com/salkuadrat/curved_animation_controller.git
 ```
 
 You should then run `flutter packages upgrade` or update your packages in IntelliJ.
