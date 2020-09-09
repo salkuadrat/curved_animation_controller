@@ -128,7 +128,9 @@ CurvedAnimationController(
   animationBehavior: animationBehavior,
   debugLabel: debugLabel,
 );
+```
 
+```
 CurvedAnimationController.tween(
   tween, // ex: ColorTween(begin: Colors.pink, end: Colors.teal)
   duration,
@@ -139,7 +141,9 @@ CurvedAnimationController.tween(
   animationBehavior: animationBehavior,
   debugLabel: debugLabel,
 );
+```
 
+```
 CurvedAnimationController.sequence(
   sequence, // list of sequence (List<SequenceItem>)
   duration,
@@ -150,7 +154,9 @@ CurvedAnimationController.sequence(
   animationBehavior: animationBehavior,
   debugLabel: debugLabel,
 );
+```
 
+```
 CurvedAnimationController.tweenSequence(
   sequence, // TweenSequence
   duration,
@@ -165,15 +171,50 @@ CurvedAnimationController.tweenSequence(
 
 ## Available Methods
 
+```
 start()
+```
+
+```
 forward()
+```
+
+```
 reverse()
+```
+
+```
 stop()
+```
+
+```
 fling()
+```
+
+```
 reset()
+```
+
+```
 dispose()
+```
+
+```
 addListener()
+```
+
+```
 removeListener()
+```
+
+```
 addStateListener()
+```
+
+```
 removeStateListener()
+```
+
+```
 notifyListeners()
+```
