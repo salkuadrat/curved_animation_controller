@@ -100,8 +100,8 @@ _animation.forward();
 ...
 
 // apply animation
-Opacity(
-  opacity: _animation.value,
+Container(
+  color: _animation.value,
   child: child,
 )
 ```
