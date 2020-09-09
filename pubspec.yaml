@@ -1,6 +1,6 @@
 name: curved_animation_controller
 description: The easy way to use AnimationController with Curve.
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/salkuadrat
 
 environment:

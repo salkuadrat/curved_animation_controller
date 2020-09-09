@@ -2,13 +2,15 @@
 
 An easy way to use AnimationController with Curve.
 
+![](demo.gif)
+
 ## Getting Started
 
 You should ensure that you add the controller as a dependency in your flutter project.
 
 ```yaml
 dependencies:
-  curved_animation_controller: ^0.0.2
+  curved_animation_controller: ^0.0.3
 ```
 
 You can also reference the git repo directly if you want:
