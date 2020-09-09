@@ -171,50 +171,62 @@ CurvedAnimationController.tweenSequence(
 
 ## Available Methods
 
+Start animation:
 ```
 start()
 ```
 
+or :
 ```
 forward()
 ```
 
+Start animation in reverse direction:
 ```
 reverse()
 ```
 
+Stop animation:
 ```
 stop()
 ```
 
+Start animation with fling effect:
 ```
 fling()
 ```
 
+Reset animation:
 ```
 reset()
 ```
 
+Dispose animation controller:
 ```
 dispose()
 ```
 
+Add animation listener:
 ```
 addListener()
 ```
 
+Remove animation listener:
 ```
 removeListener()
 ```
 
+Add AnimationState listener:
 ```
 addStateListener()
 ```
 
+Remove AnimationState listener:
 ```
 removeStateListener()
 ```
 
+Notify all listeners:
 ```
 notifyListeners()
 ```
