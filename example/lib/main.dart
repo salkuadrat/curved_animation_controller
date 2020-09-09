@@ -1,7 +1,7 @@
-import 'package:example/animated_drawer.dart';
 import 'package:example/flip_drawer.dart';
 import 'package:example/page.dart';
 import 'package:example/shared.dart';
+import 'package:example/slide_drawer.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -39,7 +39,7 @@ class _AppState extends State<App> {
       ),
       home: type == DrawerType.flip 
         ? FlipDrawer(title: _title, drawer: DrawerWidget(), child: HomePage()) 
-        : AnimatedDrawer(drawer: DrawerWidget(), child: HomePage(title: _title)),
+        : SlideDrawer(drawer: DrawerWidget(), child: HomePage(title: _title)),
     );
   }
 }

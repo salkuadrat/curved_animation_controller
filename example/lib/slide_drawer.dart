@@ -2,20 +2,20 @@ import 'package:curved_animation_controller/curved_animation_controller.dart';
 import 'package:example/shared.dart';
 import 'package:flutter/material.dart';
 
-class AnimatedDrawer extends StatefulWidget {
+class SlideDrawer extends StatefulWidget {
   final Widget drawer;
   final Widget child;
 
-  const AnimatedDrawer({Key key, this.drawer, this.child}) : super(key: key);
+  const SlideDrawer({Key key, this.drawer, this.child}) : super(key: key);
 
-  static _AnimatedDrawerState of(BuildContext context) =>
-    context.findAncestorStateOfType<_AnimatedDrawerState>();
+  static _SlideDrawerState of(BuildContext context) =>
+    context.findAncestorStateOfType<_SlideDrawerState>();
   
   @override
-  _AnimatedDrawerState createState() => _AnimatedDrawerState();
+  _SlideDrawerState createState() => _SlideDrawerState();
 }
 
-class _AnimatedDrawerState extends State<AnimatedDrawer> 
+class _SlideDrawerState extends State<SlideDrawer> 
   with SingleTickerProviderStateMixin {
 
   static const double _maxSlide = 220;

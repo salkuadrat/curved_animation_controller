@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:curved_animation_controller/curved_animation_controller.dart';
-import 'package:example/animated_drawer.dart';
 import 'package:example/flip_drawer.dart';
 import 'package:example/shared.dart';
+import 'package:example/slide_drawer.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> with
             return IconButton(
               icon: Icon(Icons.menu),
               onPressed: () {
-                AnimatedDrawer.of(context)?.toggle();
+                SlideDrawer.of(context)?.toggle();
                 FlipDrawer.of(context)?.toggle();
               },
             );
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> with
                     _initAnimation();
                     _animate();
 
-                    AnimatedDrawer.of(context)?.reset();
+                    SlideDrawer.of(context)?.reset();
                     FlipDrawer.of(context)?.reset();
                   });
                 },
