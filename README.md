@@ -8,7 +8,7 @@ You should ensure that you add the controller as a dependency in your flutter pr
 
 ```yaml
 dependencies:
-  curved_animation_controller: ^0.0.1
+  curved_animation_controller: ^0.0.2
 ```
 
 You can also reference the git repo directly if you want:
