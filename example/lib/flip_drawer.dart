@@ -49,6 +49,8 @@ class _FlipDrawerState extends State<FlipDrawer>
   }
 
   reset() => _initAnimation();
+  open() => _animation.start();
+  close() => _animation.reverse();
   toggle() => _animation.isDismissed ? _animation.forward() : _animation.reverse();
 
   _onDragStart(DragStartDetails details) {
@@ -87,56 +89,65 @@ class _FlipDrawerState extends State<FlipDrawer>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onHorizontalDragStart: _onDragStart,
-      onHorizontalDragUpdate: _onDragUpdate,
-      onHorizontalDragEnd: _onDragEnd,
-      behavior: HitTestBehavior.translucent,
-      onTap: toggle,
-      child: Material(
-        color: Colors.blueGrey,
-        child: Stack(
-          children: <Widget>[
-            Transform.translate(
-              offset: Offset(_maxSlide * (_animation.value - 1), 0),
-              child: Transform(
-                transform: Matrix4.identity()
-                  ..setEntry(3, 2, 0.001)
-                  ..rotateY(pi / 2 * (1 - _animation.value)),
-                alignment: Alignment.centerRight,
-                child: widget.drawer,
+    return WillPopScope(
+      onWillPop: () async {
+        if (_animation.isCompleted) {
+          close();
+          return Future.value(false);
+        }
+        return Future.value(true);
+      },
+      child: GestureDetector(
+        onHorizontalDragStart: _onDragStart,
+        onHorizontalDragUpdate: _onDragUpdate,
+        onHorizontalDragEnd: _onDragEnd,
+        behavior: HitTestBehavior.translucent,
+        onTap: toggle,
+        child: Material(
+          color: Colors.blueGrey,
+          child: Stack(
+            children: <Widget>[
+              Transform.translate(
+                offset: Offset(_maxSlide * (_animation.value - 1), 0),
+                child: Transform(
+                  transform: Matrix4.identity()
+                    ..setEntry(3, 2, 0.001)
+                    ..rotateY(pi / 2 * (1 - _animation.value)),
+                  alignment: Alignment.centerRight,
+                  child: widget.drawer,
+                ),
               ),
-            ),
-            Transform.translate(
-              offset: Offset(_maxSlide * _animation.value, 0),
-              child: Transform(
-                transform: Matrix4.identity()
-                  ..setEntry(3, 2, 0.001)
-                  ..rotateY(-pi * _animation.value / 2),
-                alignment: Alignment.centerLeft,
-                child: widget.child,
+              Transform.translate(
+                offset: Offset(_maxSlide * _animation.value, 0),
+                child: Transform(
+                  transform: Matrix4.identity()
+                    ..setEntry(3, 2, 0.001)
+                    ..rotateY(-pi * _animation.value / 2),
+                  alignment: Alignment.centerLeft,
+                  child: widget.child,
+                ),
               ),
-            ),
-            Positioned(
-              top: 4.0 + MediaQuery.of(context).padding.top,
-              left: 4.0 + _animation.value * _maxSlide,
-              child: IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: toggle,
-                color: Colors.white,
+              Positioned(
+                top: 4.0 + MediaQuery.of(context).padding.top,
+                left: 4.0 + _animation.value * _maxSlide,
+                child: IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: toggle,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            Positioned(
-              top: 16.0 + MediaQuery.of(context).padding.top,
-              left: _animation.value * MediaQuery.of(context).size.width,
-              width: MediaQuery.of(context).size.width,
-              child: Text(
-                widget.title,
-                style: Theme.of(context).primaryTextTheme.headline6,
-                textAlign: TextAlign.center,
+              Positioned(
+                top: 16.0 + MediaQuery.of(context).padding.top,
+                left: _animation.value * MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width,
+                child: Text(
+                  widget.title,
+                  style: Theme.of(context).primaryTextTheme.headline6,
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

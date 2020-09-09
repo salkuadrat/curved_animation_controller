@@ -47,11 +47,8 @@ class _SlideDrawerState extends State<SlideDrawer>
   }
 
   reset() => _initAnimation();
-
   open() => _animation.start();
-
   close() => _animation.reverse();
-
   toggle() => _animation.isCompleted ? close() : open();
 
   _onDragStart(DragStartDetails details) {
