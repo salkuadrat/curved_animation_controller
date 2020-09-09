@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   
+  flutter_phoenix: "^0.1.0"
   curved_animation_controller:
     path: ../
     

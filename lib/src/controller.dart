@@ -1,53 +1,41 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
-class CurvedAnimationController {  
-  CurvedAnimationController({
-    @required TickerProvider vsync,
-    double value,
-    this.duration,
-    this.reverseDuration,
-    this.debugLabel,
-    this.begin,
-    this.end,
-    this.lowerBound = 0.0,
-    this.upperBound = 1.0,
-    this.animationBehavior = AnimationBehavior.normal,
-    this.curve=Curves.linear,
-  }) {
-    this._vsync = vsync;
-    this._controllerValue = value;
-    init();
-  }
+class CurvedAnimationController<T> extends Listenable implements ValueListenable<T> {
 
-  TickerProvider _vsync;
-  double _controllerValue;
-
-  AnimationController _controller;
-  Animation _animation;
-  
-  /// AnimationController for this animation
-  AnimationController get controller => _controller;
-
-  /// Animation that hold value for this animation
-  Animation get animation => _animation;
-  
   /// The value this variable has at the beginning of the animation.
   ///
   /// See the constructor for details about whether this property may be null
   /// (it varies from subclass to subclass).
-  final double begin;
+  T begin;
 
   /// The value this variable has at the end of the animation.
   ///
   /// See the constructor for details about whether this property may be null
   /// (it varies from subclass to subclass).
-  final double end;
+  T end;
 
-  /// The value at which this animation is deemed to be dismissed.
-  final double lowerBound;
+  /// The length of time this animation should last.
+  ///
+  /// If [reverseDuration] is specified, then [duration] is only used when going
+  /// [forward]. Otherwise, it specifies the duration going in both directions.
+  final Duration duration;
 
-  /// The value at which this animation is deemed to be completed.
-  final double upperBound;
+  /// The length of time this animation should last when going in [reverse].
+  ///
+  /// The value of [duration] us used if [reverseDuration] is not specified or
+  /// set to null.
+  final Duration reverseDuration;
+  
+  /// Curve for when the animation goes ahead
+  final Curve curve;
+
+  /// Curve when the animation goes back
+  final Curve reverseCurve;
+
+
+  final TickerProvider vsync;
 
   /// A label that is used in the [toString] output. Intended to aid with
   /// identifying animation controller instances in debug output.
@@ -61,30 +49,134 @@ class CurvedAnimationController {
   /// [new AnimationController.unbounded] constructor.
   AnimationBehavior animationBehavior;
 
-  /// The length of time this animation should last.
-  ///
-  /// If [reverseDuration] is specified, then [duration] is only used when going
-  /// [forward]. Otherwise, it specifies the duration going in both directions.
-  Duration duration;
+  Tween _tween;
+  TweenSequence _tweenSequence;
 
-  /// The length of time this animation should last when going in [reverse].
-  ///
-  /// The value of [duration] us used if [reverseDuration] is not specified or
-  /// set to null.
-  Duration reverseDuration;
-  
-  /// The curve to use in the forward direction.
-  Curve curve;
+  AnimationController _controller;
+  Animation _animation;
+
+  CurvedAnimationController({
+    this.begin,
+    this.end,
+    this.curve, 
+    this.duration,
+    this.reverseCurve,
+    this.reverseDuration,
+    this.debugLabel,
+    this.animationBehavior,
+    this.vsync,
+  }) {
+    _tween = Tween(begin: begin ?? 0.0, end: end ?? 1.0);
+    _controller = AnimationController(
+      vsync: vsync, 
+      animationBehavior: animationBehavior,
+      debugLabel: debugLabel,
+      reverseDuration: reverseDuration,
+      duration: duration,
+    );
+    
+    _animation = _tween.animate(CurvedAnimation(
+      parent: _controller, 
+      curve: curve,
+      reverseCurve: reverseCurve,
+    ));
+  }
+
+  CurvedAnimationController.sequence(List<SequenceItem> sequence, this.duration, {
+    this.curve = Curves.linear, 
+    this.reverseCurve = Curves.linear, 
+    this.reverseDuration,
+    this.debugLabel,
+    this.animationBehavior,
+    this.vsync,
+  }) {
+    _tweenSequence = TweenSequence(sequence.map((item) => TweenSequenceItem(
+        tween: Tween(begin: item.begin, end: item.end), 
+        weight: item.weight,
+      )
+    ).toList());
+
+    _controller = AnimationController(
+      vsync: vsync, 
+      animationBehavior: animationBehavior,
+      debugLabel: debugLabel,
+      reverseDuration: reverseDuration,
+      duration: duration,
+    );
+    
+    _animation = _tweenSequence.animate(CurvedAnimation(
+      parent: _controller, 
+      curve: curve, 
+      reverseCurve: reverseCurve,
+    ));
+  }
+
+  CurvedAnimationController.tween(Tween tween, this.duration, {
+    this.curve, 
+    this.reverseCurve, 
+    this.reverseDuration,
+    this.debugLabel,
+    this.animationBehavior,
+    this.vsync,
+  }) {
+    _tween = tween;
+
+    _controller = AnimationController(
+      vsync: vsync, 
+      debugLabel: debugLabel,
+      animationBehavior: animationBehavior,
+      reverseDuration: reverseDuration,
+      duration: duration,
+    );
+
+    _animation = _tween.animate(CurvedAnimation(
+      parent: _controller, 
+      curve: curve, 
+      reverseCurve: reverseCurve,
+    ));
+  }
+
+  CurvedAnimationController.tweenSequence(TweenSequence sequence, this.duration, {
+    this.curve, 
+    this.reverseCurve, 
+    this.debugLabel,
+    this.animationBehavior,
+    this.reverseDuration,
+    this.vsync,
+  }) {
+    _tweenSequence = sequence;
+
+    _controller = AnimationController(
+      vsync: vsync, 
+      debugLabel: debugLabel,
+      animationBehavior: animationBehavior,
+      reverseDuration: reverseDuration,
+      duration: duration,
+    );
+
+    _animation = _tweenSequence.animate(CurvedAnimation(
+      parent: _controller, 
+      curve: curve, 
+      reverseCurve: reverseCurve,
+    ));
+  }
+
+  /// AnimationController for this animation
+  AnimationController get controller => _controller;
+
+  /// Animation that hold value for this animation
+  Animation get animation => _animation;
 
   /// The current value of the animation.
-  ///
-  /// Setting this value notifies all the listeners that the value
-  /// changed.
-  ///
-  /// Setting this value also stops the controller if it is currently
-  /// running; if this happens, it also notifies all the status
-  /// listeners.
-  double get value => _animation?.value ?? lowerBound;
+  @override
+  T get value => _animation?.value;
+
+  /// The current progress of the animation.
+  double get progress => _controller?.value ?? 0.0;
+
+  set progress(double value) {
+    _controller.value = value;
+  }
 
   /// The rate of change of [value] per second.
   ///
@@ -100,6 +192,12 @@ class CurvedAnimationController {
   /// to pass. See [Ticker.muted] and [TickerMode].
   bool get isAnimating => _controller?.isAnimating ?? false;
 
+  /// Whether this animation is stopped at the end.
+  bool get isCompleted => _controller?.isCompleted ?? false;
+
+  /// Whether this animation is stopped at the beginning.
+  bool get isDismissed => _controller?.isDismissed ?? false;
+
   /// The amount of time that has passed between the time the animation started
   /// and the most recent tick of the animation.
   ///
@@ -107,27 +205,6 @@ class CurvedAnimationController {
   Duration get lastElapsedDuration => _controller?.lastElapsedDuration;
 
   AnimationStatus get status => _controller?.status;
-
-  void init() {
-    _controller = AnimationController(
-      vsync: _vsync, 
-      duration: duration,
-      reverseDuration: reverseDuration,
-      animationBehavior: animationBehavior,
-      debugLabel: debugLabel,
-      upperBound: upperBound,
-      lowerBound: lowerBound,
-      value: _controllerValue,
-    );
-
-    _animation = Tween<double>(
-      begin: begin ?? lowerBound, 
-      end: end ?? upperBound,
-    ).animate(CurvedAnimation(
-      parent: _controller, 
-      curve: curve,
-    ));
-  }
 
   /// Starts running this animation forwards (towards the end).
   ///
@@ -141,7 +218,12 @@ class CurvedAnimationController {
   /// which switches to [AnimationStatus.completed] when [upperBound] is
   /// reached at the end of the animation.
   TickerFuture forward({double from}) {
-    return _controller?.forward(from: from);
+    return _controller.forward(from: from);
+  }
+
+  /// alias of [forward]
+  TickerFuture start({double from}) {
+    return forward(from: from);
   }
 
   /// Starts running this animation in reverse (towards the beginning).
@@ -288,27 +370,33 @@ class CurvedAnimationController {
     _controller?.stop(canceled: canceled);
   }
 
-  /// Release the resources used by this object. The object is no longer usable
-  /// after this method is called.
+  /// Calls listener every time the status of the animation changes.
   ///
-  /// The most recently returned [TickerFuture], if any, is marked as having been
-  /// canceled, meaning the future never completes and its [TickerFuture.orCancel]
-  /// derivative future completes with a [TickerCanceled] error.
-  void dispose() {
-    _controller?.dispose();
+  /// Listeners can be removed with [removeStatusListener].
+  void addStatusListener(AnimationStatusListener listener) {
+    _controller?.addStatusListener(listener);
+  }
+
+  /// Stops calling the listener every time the status of the animation changes.
+  ///
+  /// Listeners can be added with [addStatusListener].
+  void removeStatusListener(AnimationStatusListener listener) {
+    _controller?.removeStatusListener(listener);
   }
 
   /// Calls the listener every time the value of the animation changes.
   ///
   /// Listeners can be removed with [removeListener].
-  void addListener(VoidCallback listener) {
+  @override
+  void addListener(Function listener) {
     _controller?.addListener(listener);
   }
-
+  
   /// Stop calling the listener every time the value of the animation changes.
   ///
   /// Listeners can be added with [addListener].
-  void removeListener(VoidCallback listener) {
+  @override
+  void removeListener(Function listener) {
     _controller?.removeListener(listener);
   }
 
@@ -319,4 +407,22 @@ class CurvedAnimationController {
   void notifyListeners() {
     _controller?.notifyListeners();
   }
+
+  /// Release the resources used by this object. The object is no longer usable
+  /// after this method is called.
+  ///
+  /// The most recently returned [TickerFuture], if any, is marked as having been
+  /// canceled, meaning the future never completes and its [TickerFuture.orCancel]
+  /// derivative future completes with a [TickerCanceled] error.
+  void dispose() {
+    _controller?.dispose();
+  }
+}
+
+class SequenceItem {
+  final begin;
+  final end;
+  final weight;
+
+  SequenceItem(this.begin, this.end, {this.weight = 1.0});
 }

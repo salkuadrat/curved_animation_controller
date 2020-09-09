@@ -1,15 +1,14 @@
+import 'package:example/main.dart';
 import 'package:flutter/material.dart';
 
+enum DrawerType { slide, flip }
+
 Curve curve = Curves.linear;
-String get curveName => curve?.toString() ?? '';
+DrawerType type = DrawerType.slide;
 
 const curves = [
   const NamedCurve('Linear', Curves.linear),
-  const NamedCurve('BounceIn', Curves.bounceIn),
-  const NamedCurve('BounceInOut', Curves.bounceInOut),
-  const NamedCurve('BounceOut', Curves.bounceOut),
   const NamedCurve('Decelerate', Curves.decelerate),
-  const NamedCurve('FastLinearToSlowEaseIn', Curves.fastLinearToSlowEaseIn),
   const NamedCurve('Ease', Curves.ease),
   const NamedCurve('EaseIn', Curves.easeIn),
   const NamedCurve('EaseInToLinear', Curves.easeInToLinear),
@@ -44,6 +43,10 @@ const curves = [
   const NamedCurve('ElasticIn', Curves.elasticIn),
   const NamedCurve('ElasticOut', Curves.elasticOut),
   const NamedCurve('ElasticInOut', Curves.elasticInOut),
+  const NamedCurve('BounceIn', Curves.bounceIn),
+  const NamedCurve('BounceInOut', Curves.bounceInOut),
+  const NamedCurve('BounceOut', Curves.bounceOut),
+  const NamedCurve('FastLinearToSlowEaseIn', Curves.fastLinearToSlowEaseIn),
 ];
 
 class NamedCurve {
@@ -51,4 +54,87 @@ class NamedCurve {
   final Curve curve;
 
   const NamedCurve(this.name, this.curve);
+}
+
+class DropdownCurve extends DropdownButton<Curve> {
+  final Curve value;
+  final Function(Curve) onChanged;
+
+  DropdownCurve({this.value, this.onChanged}) : super(
+    items: curves.map((item) => DropdownMenuItem(
+      child: Text('${item.name}'),
+      value: item.curve,
+    )).toList(),
+    onChanged: onChanged,
+    value: value,
+  );
+}
+
+class DrawerWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [0.0, 1.0], 
+            colors: [
+              Color(0xFF43CEA2),
+              Color(0xFF1D6DBD),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Theme(
+            data: ThemeData(brightness: Brightness.dark),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                if(type != DrawerType.slide) ListTile(
+                  leading: Icon(Icons.adjust),
+                  title: Text('Slide Drawer'),
+                  onTap: () {
+                    type = DrawerType.slide;
+                    App.of(context).restart();
+                  },
+                ),
+                if(type != DrawerType.flip) ListTile(
+                  leading: Icon(Icons.adjust),
+                  title: Text('Flip Drawer'),
+                  onTap: () {
+                    type = DrawerType.flip;
+                    App.of(context).restart();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.rss_feed),
+                  title: Text('News'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.favorite_border),
+                  title: Text('Favourites'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.map),
+                  title: Text('Map'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Settings'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.person_outline),
+                  title: Text('Profile'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
