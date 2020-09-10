@@ -2,18 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-class CurvedAnimationController<T> extends Listenable implements ValueListenable<T> {
+class CurvedAnimationController<T> extends Listenable 
+  implements ValueListenable<T> {
 
   /// The value this variable has at the beginning of the animation.
-  ///
-  /// See the constructor for details about whether this property may be null
-  /// (it varies from subclass to subclass).
   T begin;
-
+  
   /// The value this variable has at the end of the animation.
-  ///
-  /// See the constructor for details about whether this property may be null
-  /// (it varies from subclass to subclass).
   T end;
 
   /// The length of time this animation should last.
@@ -34,7 +29,6 @@ class CurvedAnimationController<T> extends Listenable implements ValueListenable
   /// Curve when the animation goes back
   final Curve reverseCurve;
 
-
   final TickerProvider vsync;
 
   /// A label that is used in the [toString] output. Intended to aid with
@@ -44,9 +38,7 @@ class CurvedAnimationController<T> extends Listenable implements ValueListenable
   /// The behavior of the controller when [AccessibilityFeatures.disableAnimations]
   /// is true.
   ///
-  /// Defaults to [AnimationBehavior.normal] for the [new AnimationController]
-  /// constructor, and [AnimationBehavior.preserve] for the
-  /// [new AnimationController.unbounded] constructor.
+  /// Defaults to [AnimationBehavior.normal].
   AnimationBehavior animationBehavior;
 
   Tween _tween;
@@ -331,9 +323,9 @@ class CurvedAnimationController<T> extends Listenable implements ValueListenable
     return _controller?.animateWith(simulation);
   }
 
-  /// Sets the controller's value to [lowerBound], stopping the animation (if
+  /// Sets the controller's value to [begin], stopping the animation (if
   /// in progress), and resetting to its beginning point, or dismissed state.
-  ///
+  /// 
   /// The most recently returned [TickerFuture], if any, is marked as having been
   /// canceled, meaning the future never completes and its [TickerFuture.orCancel]
   /// derivative future completes with a [TickerCanceled] error.
@@ -341,7 +333,7 @@ class CurvedAnimationController<T> extends Listenable implements ValueListenable
   /// See also:
   ///
   ///  * [value], which can be explicitly set to a specific value as desired.
-  ///  * [forward], which starts the animation in the forward direction.
+  ///  * [forward], [start], which starts the animation in the forward direction.
   ///  * [stop], which aborts the animation without changing its value or status
   ///    and without dispatching any notifications other than completing or
   ///    canceling the [TickerFuture].
@@ -364,7 +356,7 @@ class CurvedAnimationController<T> extends Listenable implements ValueListenable
   ///
   ///  * [reset], which stops the animation and resets it to the [lowerBound],
   ///    and which does send notifications.
-  ///  * [forward], [reverse], [animateTo], [animateWith], [fling], and [repeat],
+  ///  * [start], [forward], [reverse], [animateTo], [animateWith], [fling], and [repeat],
   ///    which restart the animation controller.
   void stop({ bool canceled = true }) {
     _controller?.stop(canceled: canceled);

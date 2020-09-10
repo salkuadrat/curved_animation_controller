@@ -198,6 +198,16 @@ Start animation with fling effect:
 fling()
 ```
 
+Animate to specific target value:
+```
+animateTo()
+```
+
+Animate back to specific target value:
+```
+animateBack()
+```
+
 Reset animation:
 ```
 reset()
