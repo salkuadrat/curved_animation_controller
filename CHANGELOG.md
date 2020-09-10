@@ -13,3 +13,7 @@
 ## [0.0.4] - 10 Sept 2020
 
 * Simplified documentation and refactor the example project
+
+## [1.0.0] - 10 Sept 2020
+
+* Change to release version
