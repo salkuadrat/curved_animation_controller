@@ -122,8 +122,11 @@ class _HomePageState extends State<HomePage> with
             return IconButton(
               icon: Icon(Icons.menu),
               onPressed: () {
-                SlideDrawer.of(context)?.toggle();
-                FlipDrawer.of(context)?.toggle();
+                if(isSlideDrawer) 
+                  SlideDrawer.of(context)?.toggle();
+                
+                if(isFlipDrawer) 
+                  FlipDrawer.of(context)?.toggle();
               },
             );
           },
@@ -144,8 +147,11 @@ class _HomePageState extends State<HomePage> with
                     _initAnimation();
                     _animate();
 
-                    SlideDrawer.of(context)?.reset();
-                    FlipDrawer.of(context)?.reset();
+                    if(isSlideDrawer) 
+                      SlideDrawer.of(context)?.reset();
+
+                    if(isFlipDrawer) 
+                      FlipDrawer.of(context)?.reset();
                   });
                 },
               ),

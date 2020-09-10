@@ -6,6 +6,9 @@ enum DrawerType { slide, flip }
 Curve curve = Curves.linear;
 DrawerType type = DrawerType.slide;
 
+bool get isSlideDrawer => type == DrawerType.slide;
+bool get isFlipDrawer => type == DrawerType.flip;
+
 const curves = [
   const NamedCurve('Linear', Curves.linear),
   const NamedCurve('Decelerate', Curves.decelerate),

@@ -37,7 +37,7 @@ class _AppState extends State<App> {
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: type == DrawerType.flip 
+      home: isFlipDrawer 
         ? FlipDrawer(title: _title, drawer: DrawerWidget(), child: HomePage()) 
         : SlideDrawer(drawer: DrawerWidget(), child: HomePage(title: _title)),
     );
