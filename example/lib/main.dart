@@ -38,8 +38,8 @@ class _AppState extends State<App> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: isFlipDrawer 
-        ? FlipDrawer(title: _title, drawer: DrawerWidget(), child: HomePage()) 
-        : SlideDrawer(drawer: DrawerWidget(), child: HomePage(title: _title)),
+        ? FlipDrawer(title: _title, drawer: MenuDrawer(), child: HomePage()) 
+        : SlideDrawer(drawer: MenuDrawer(), child: HomePage(title: _title)),
     );
   }
 }

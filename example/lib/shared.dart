@@ -73,7 +73,7 @@ class DropdownCurve extends DropdownButton<Curve> {
   );
 }
 
-class DrawerWidget extends StatelessWidget {
+class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
