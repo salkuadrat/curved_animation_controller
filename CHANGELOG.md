@@ -9,3 +9,7 @@
 ## [0.0.3] - 09 Sept 2020
 
 * Add demo.gif
+
+## [0.0.4] - 10 Sept 2020
+
+* Simplified documentation and refactor the example project

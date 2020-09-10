@@ -45,21 +45,30 @@ class _AppState extends State<App> {
 }
 
 class MenuDrawer extends StatelessWidget {
+
+  BoxDecoration get _gradient => BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      stops: [0.0, 1.0], 
+      colors: [
+        Color(0xFF43CEA2),
+        Color(0xFF1D6DBD),
+      ],
+    ),
+  );
+
+  BoxDecoration get _color => BoxDecoration(
+    color: Colors.teal[500],
+  );
+
   @override
   Widget build(BuildContext context) {
     return Material(
+      shadowColor: Colors.transparent,
+      borderOnForeground: false,
       child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0.0, 1.0], 
-            colors: [
-              Color(0xFF43CEA2),
-              Color(0xFF1D6DBD),
-            ],
-          ),
-        ),
+        decoration: isSlideDrawer ? _gradient : _color,
         child: SafeArea(
           child: Theme(
             data: ThemeData(brightness: Brightness.dark),

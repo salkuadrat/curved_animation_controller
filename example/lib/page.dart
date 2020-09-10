@@ -116,18 +116,12 @@ class _HomePageState extends State<HomePage> with
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: isFlipDrawer ? AppBar() : AppBar(
         leading: Builder(
           builder: (context) {
             return IconButton(
               icon: Icon(Icons.menu),
-              onPressed: () {
-                if(isSlideDrawer) 
-                  SlideDrawer.of(context)?.toggle();
-                
-                if(isFlipDrawer) 
-                  FlipDrawer.of(context)?.toggle();
-              },
+              onPressed: () => SlideDrawer.of(context)?.toggle(),
             );
           },
         ),

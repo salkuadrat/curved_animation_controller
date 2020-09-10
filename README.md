@@ -2,7 +2,7 @@
 
 An easy way to use AnimationController with Curve.
 
-![](demo.gif)
+![](demo.mp4)
 
 ## Getting Started
 
@@ -10,7 +10,7 @@ You should ensure that you add the controller as a dependency in your flutter pr
 
 ```yaml
 dependencies:
-  curved_animation_controller: ^0.0.3
+  curved_animation_controller: ^0.0.4
 ```
 
 You can also reference the git repo directly if you want:

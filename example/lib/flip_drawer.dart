@@ -104,11 +104,12 @@ class _FlipDrawerState extends State<FlipDrawer>
         behavior: HitTestBehavior.translucent,
         onTap: toggle,
         child: Material(
-          color: Colors.blueGrey,
+          color: Colors.teal[500],
           child: Stack(
             children: <Widget>[
-              Transform.translate(
-                offset: Offset(_maxSlide * (_animation.value - 1), 0),
+              Transform(
+                transform: Matrix4.identity()
+                  ..translate(_maxSlide * (_animation.value - 1), 0.0),
                 child: Transform(
                   transform: Matrix4.identity()
                     ..setEntry(3, 2, 0.001)
@@ -117,8 +118,9 @@ class _FlipDrawerState extends State<FlipDrawer>
                   child: widget.drawer,
                 ),
               ),
-              Transform.translate(
-                offset: Offset(_maxSlide * _animation.value, 0),
+              Transform(
+                transform: Matrix4.identity()
+                  ..translate(_maxSlide * _animation.value, 0.0),
                 child: Transform(
                   transform: Matrix4.identity()
                     ..setEntry(3, 2, 0.001)
