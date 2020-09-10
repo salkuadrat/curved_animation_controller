@@ -2,7 +2,7 @@
 
 An easy way to use AnimationController with Curve.
 
-![](demo.mp4)
+![](example.gif)
 
 ## Getting Started
 
@@ -24,7 +24,8 @@ You should then run `flutter packages upgrade` or update your packages in Intell
 
 ## Example Project
 
-There is a pretty sweet example project in the `example` folder. Check it out. Otherwise, keep reading to get up and running.
+There is a nice example project in the `example` folder. 
+Check it out. Otherwise, keep reading to get up and running.
 
 ## Using
 
