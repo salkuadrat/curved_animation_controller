@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:curved_animation_controller/curved_animation_controller.dart';
 import 'package:example/shared.dart';
 import 'package:flutter/material.dart';
@@ -17,17 +19,20 @@ class SlideDrawer extends StatefulWidget {
 
 class _SlideDrawerState extends State<SlideDrawer> 
   with SingleTickerProviderStateMixin {
-
-  static const double _maxSlide = 220;
-  static const double _minDragStartEdge = 60;
-  static const double _maxDragStartEdge = _maxSlide - 16;
+  
   bool _canBeDragged = false;
-
+  double _offsetFromRight = 80;
+  double _minDragStartEdge = 60;
+  double _maxDragStartEdge;
+  double _maxSlide;
+  
   CurvedAnimationController _animation;
 
   @override
   void initState() {
     super.initState();
+    _maxSlide = MediaQuery.of(context).size.width - _offsetFromRight;
+    _maxDragStartEdge = _maxSlide - 16;
     _initAnimation();
   }
 
@@ -108,10 +113,12 @@ class _SlideDrawerState extends State<SlideDrawer>
           children: [
             widget.drawer,
             Transform(
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               transform: Matrix4.identity()
                 ..translate(_maxSlide * _animation.value)
-                ..scale(1.0 - (0.25 * _animation.value)),
+                ..scale(1.0 - (0.25 * _animation.value))
+                ..setEntry(3, 2, 0.001)
+                ..rotateY(_animation.value * pi / 24),
               child: GestureDetector(
                 onTap: _animation.isCompleted ? close : null,
                 child: widget.child,
