@@ -18,21 +18,20 @@ class SlideDrawer extends StatefulWidget {
 }
 
 class _SlideDrawerState extends State<SlideDrawer> 
-  with SingleTickerProviderStateMixin {
+  with TickerProviderStateMixin {
   
   bool _canBeDragged = false;
-  double _offsetFromRight = 80;
+  double _offsetFromRight = 60;
   double _minDragStartEdge = 60;
-  double _maxDragStartEdge;
-  double _maxSlide;
+
+  double get _maxSlide => MediaQuery.of(context).size.width - _offsetFromRight;
+  double get _maxDragStartEdge => _maxSlide - 16;
   
   CurvedAnimationController _animation;
 
   @override
   void initState() {
     super.initState();
-    _maxSlide = MediaQuery.of(context).size.width - _offsetFromRight;
-    _maxDragStartEdge = _maxSlide - 16;
     _initAnimation();
   }
 
@@ -44,14 +43,17 @@ class _SlideDrawerState extends State<SlideDrawer>
   
   _initAnimation() {
     _animation = CurvedAnimationController(
-      vsync: this, duration: Duration(milliseconds: 300),
+      vsync: this, duration: Duration(milliseconds: 250),
       curve: curve, // curve value from shared.dart
     );
 
     _animation.addListener(() => setState(() {}));
   }
 
-  reset() => _initAnimation();
+  reset() {
+    _initAnimation();
+  }
+
   open() => _animation.start();
   close() => _animation.reverse();
   toggle() => _animation.isCompleted ? close() : open();
@@ -97,6 +99,8 @@ class _SlideDrawerState extends State<SlideDrawer>
 
   @override
   Widget build(BuildContext context) {
+    
+
     return WillPopScope(
       onWillPop: () async {
         if (_animation.isCompleted) {

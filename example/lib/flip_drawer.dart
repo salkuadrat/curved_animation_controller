@@ -22,36 +22,56 @@ class FlipDrawer extends StatefulWidget {
 class _FlipDrawerState extends State<FlipDrawer> 
   with TickerProviderStateMixin {
 
-  final double _maxSlide = 300.0;
+  final double _offsetFromRight = 60.0;
   bool _canBeDragged = false;
 
   CurvedAnimationController _animation;
+  CurvedAnimationController _menuAnimation;
+
+  double get _maxSlide => MediaQuery.of(context).size.width - _offsetFromRight;
 
   @override
   void initState() {
-    super.initState();
     _initAnimation();
+    super.initState();
   }
 
   @override
   void dispose() {
     _animation.dispose();
+    _menuAnimation.dispose();
     super.dispose();
   }
 
   _initAnimation() {
     _animation = CurvedAnimationController(
-      vsync: this, duration: Duration(milliseconds: 300),
+      vsync: this, duration: Duration(milliseconds: 250),
       curve: curve, // curve value from shared.dart
+    );
+
+    _menuAnimation = CurvedAnimationController(
+      vsync: this, duration: Duration(milliseconds: 250),
+      curve: curve,
     );
     
     _animation.addListener(() => setState(() {}));
+    _menuAnimation.addListener(() => setState(() {}));
   }
 
-  reset() => _initAnimation();
-  open() => _animation.start();
-  close() => _animation.reverse();
-  toggle() => _animation.isDismissed ? _animation.forward() : _animation.reverse();
+  reset() {
+    _initAnimation();
+  }
+
+  open() {
+    _animation?.start();
+    _menuAnimation?.start();
+  }
+  close() {
+    _animation?.reverse();
+    _menuAnimation?.reverse();
+  }
+
+  toggle() => _animation.isDismissed ? open() : close();
 
   _onDragStart(DragStartDetails details) {
     bool isDragOpenFromLeft = _animation.isDismissed;
@@ -64,11 +84,11 @@ class _FlipDrawerState extends State<FlipDrawer>
     if(_canBeDragged) {
       double delta = details.primaryDelta / _maxSlide;
       _animation.progress += delta;
+      _menuAnimation.progress += delta;
     }
   }
 
   _onDragEnd(DragEndDetails details) {
-    //I have no idea what it means, copied from Drawer
     double _kMinFlingVelocity = 365.0;
 
     if (_animation.isDismissed || _animation.isCompleted) {
@@ -78,12 +98,13 @@ class _FlipDrawerState extends State<FlipDrawer>
     if (details.velocity.pixelsPerSecond.dx.abs() >= _kMinFlingVelocity) {
       double visualVelocity = 
         details.velocity.pixelsPerSecond.dx / MediaQuery.of(context).size.width;
-      _animation.fling(velocity: visualVelocity);
+      _animation?.fling(velocity: visualVelocity);
+      _menuAnimation?.fling(velocity: visualVelocity);
 
     } else if (_animation.progress < 0.5) {
-      _animation.reverse();
+      close();
     } else {
-      _animation.forward();
+      open();
     }
   }
 
@@ -133,9 +154,12 @@ class _FlipDrawerState extends State<FlipDrawer>
                 top: 4.0 + MediaQuery.of(context).padding.top,
                 left: 4.0 + _animation.value * _maxSlide,
                 child: IconButton(
-                  icon: Icon(Icons.menu),
+                  icon: AnimatedIcon(
+                    icon: AnimatedIcons.menu_close,
+                    color: Colors.white, 
+                    progress: _menuAnimation.controller,
+                  ),
                   onPressed: toggle,
-                  color: Colors.white,
                 ),
               ),
               Positioned(

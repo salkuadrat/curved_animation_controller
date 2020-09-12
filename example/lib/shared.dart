@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum DrawerType { slide, flip }
 
 Curve curve = Curves.linear;
-DrawerType type = DrawerType.slide;
+DrawerType type = DrawerType.flip;
 
 bool get isSlideDrawer => type == DrawerType.slide;
 bool get isFlipDrawer => type == DrawerType.flip;
