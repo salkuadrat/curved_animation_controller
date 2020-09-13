@@ -125,7 +125,7 @@ class _SlideDrawerState extends State<SlideDrawer>
                 ..rotateY(_animation.value * pi / 24),
               child: GestureDetector(
                 onTap: _animation.isCompleted ? close : null,
-                child: widget.child,
+                child: Material(child: widget.child, elevation: 6),
               ),
             ),
           ],
