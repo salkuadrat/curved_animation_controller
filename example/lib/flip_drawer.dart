@@ -151,6 +151,16 @@ class _FlipDrawerState extends State<FlipDrawer>
                 ),
               ),
               Positioned(
+                top: 16.0 + MediaQuery.of(context).padding.top,
+                left: _animation.value * MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width,
+                child: Text(
+                  widget.title,
+                  style: Theme.of(context).primaryTextTheme.headline6,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Positioned(
                 top: 4.0 + MediaQuery.of(context).padding.top,
                 left: 4.0 + _animation.value * _maxSlide,
                 child: IconButton(
@@ -160,16 +170,6 @@ class _FlipDrawerState extends State<FlipDrawer>
                     progress: _menuAnimation.controller,
                   ),
                   onPressed: toggle,
-                ),
-              ),
-              Positioned(
-                top: 16.0 + MediaQuery.of(context).padding.top,
-                left: _animation.value * MediaQuery.of(context).size.width,
-                width: MediaQuery.of(context).size.width,
-                child: Text(
-                  widget.title,
-                  style: Theme.of(context).primaryTextTheme.headline6,
-                  textAlign: TextAlign.center,
                 ),
               ),
             ],

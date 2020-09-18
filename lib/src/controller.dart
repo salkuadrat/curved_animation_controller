@@ -104,8 +104,8 @@ class CurvedAnimationController<T> extends Listenable
   }
 
   CurvedAnimationController.tween(Tween tween, this.duration, {
-    this.curve, 
-    this.reverseCurve, 
+    this.curve = Curves.linear, 
+    this.reverseCurve = Curves.linear, 
     this.reverseDuration,
     this.debugLabel,
     this.animationBehavior,
@@ -129,8 +129,8 @@ class CurvedAnimationController<T> extends Listenable
   }
 
   CurvedAnimationController.tweenSequence(TweenSequence sequence, this.duration, {
-    this.curve, 
-    this.reverseCurve, 
+    this.curve = Curves.linear, 
+    this.reverseCurve = Curves.linear, 
     this.debugLabel,
     this.animationBehavior,
     this.reverseDuration,
