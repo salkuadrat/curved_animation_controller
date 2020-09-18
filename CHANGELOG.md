@@ -17,3 +17,9 @@
 ## [1.0.0] - 10 Sept 2020
 
 * Change to release version
+
+## [1.0.1] - 18 Sept 2020
+
+* Fixing a little bug on default curves
+
+
