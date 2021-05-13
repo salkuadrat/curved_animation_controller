@@ -10,7 +10,7 @@ void main() {
 
 class App extends StatefulWidget {
 
-  static _AppState of(BuildContext context) =>
+  static _AppState? of(BuildContext context) =>
     context.findAncestorStateOfType<_AppState>();
   
   @override
@@ -82,7 +82,7 @@ class MenuDrawer extends StatelessWidget {
                   title: Text('Slide Drawer'),
                   onTap: () {
                     type = DrawerType.slide;
-                    App.of(context).restart();
+                    App.of(context)!.restart();
                   },
                 ),
                 if(!isFlipDrawer) ListTile(
@@ -90,7 +90,7 @@ class MenuDrawer extends StatelessWidget {
                   title: Text('Flip Drawer'),
                   onTap: () {
                     type = DrawerType.flip;
-                    App.of(context).restart();
+                    App.of(context)!.restart();
                   },
                 ),
                 ListTile(

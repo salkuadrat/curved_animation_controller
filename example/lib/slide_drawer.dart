@@ -5,12 +5,12 @@ import 'package:example/shared.dart';
 import 'package:flutter/material.dart';
 
 class SlideDrawer extends StatefulWidget {
-  final Widget drawer;
-  final Widget child;
+  final Widget? drawer;
+  final Widget? child;
 
-  const SlideDrawer({Key key, this.drawer, this.child}) : super(key: key);
+  const SlideDrawer({Key? key, this.drawer, this.child}) : super(key: key);
 
-  static _SlideDrawerState of(BuildContext context) =>
+  static _SlideDrawerState? of(BuildContext context) =>
     context.findAncestorStateOfType<_SlideDrawerState>();
   
   @override
@@ -27,7 +27,7 @@ class _SlideDrawerState extends State<SlideDrawer>
   double get _maxSlide => MediaQuery.of(context).size.width - _offsetFromRight;
   double get _maxDragStartEdge => _maxSlide - 16;
   
-  CurvedAnimationController _animation;
+  late CurvedAnimationController _animation;
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _SlideDrawerState extends State<SlideDrawer>
   _initAnimation() {
     _animation = CurvedAnimationController(
       vsync: this, duration: Duration(milliseconds: 250),
-      curve: curve, // curve value from shared.dart
+      curve: curve!, // curve value from shared.dart
     );
 
     _animation.addListener(() => setState(() {}));
@@ -72,7 +72,7 @@ class _SlideDrawerState extends State<SlideDrawer>
 
   _onDragUpdate(DragUpdateDetails details) {
     if (_canBeDragged) {
-      double delta = details.primaryDelta / _maxSlide;
+      double delta = details.primaryDelta! / _maxSlide;
       _animation.progress += delta;
     }
   }
@@ -115,7 +115,7 @@ class _SlideDrawerState extends State<SlideDrawer>
         onHorizontalDragEnd: _onDragEnd,
         child: Stack(
           children: [
-            widget.drawer,
+            widget.drawer!,
             Transform(
               alignment: Alignment.centerLeft,
               transform: Matrix4.identity()

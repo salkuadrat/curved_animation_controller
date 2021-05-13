@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 enum DrawerType { slide, flip }
 
-Curve curve = Curves.linear;
+Curve? curve = Curves.linear;
 DrawerType type = DrawerType.flip;
 
 bool get isSlideDrawer => type == DrawerType.slide;
@@ -59,8 +59,8 @@ class NamedCurve {
 }
 
 class DropdownCurve extends DropdownButton<Curve> {
-  final Curve value;
-  final Function(Curve) onChanged;
+  final Curve? value;
+  final Function(Curve?)? onChanged;
 
   DropdownCurve({this.value, this.onChanged}) : super(
     items: curves.map((item) => DropdownMenuItem(

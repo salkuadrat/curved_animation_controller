@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class HomePage extends StatefulWidget {
   final String title;
 
-  const HomePage({Key key, this.title=''}) : super(key: key);
+  const HomePage({Key? key, this.title=''}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -18,14 +18,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with 
   TickerProviderStateMixin {
 
-  CurvedAnimationController _animation;
-  CurvedAnimationController<Color> _colorAnimation;
+  late CurvedAnimationController _animation;
+  late CurvedAnimationController<Color> _colorAnimation;
 
   @override
   void initState() {
     super.initState();
     _initAnimation();
-    WidgetsBinding.instance.addPostFrameCallback((_) { 
+    WidgetsBinding.instance!.addPostFrameCallback((_) { 
       _animate();
     });
   }
@@ -40,14 +40,14 @@ class _HomePageState extends State<HomePage> with
   _initAnimation() {
     _animation = CurvedAnimationController(
       duration: Duration(milliseconds: 500), 
-      curve: curve,
+      curve: curve!,
       vsync: this,
     );
 
     _colorAnimation = CurvedAnimationController<Color>.tween(
       ColorTween(begin: Colors.pink, end: Colors.teal),
       Duration(milliseconds: 750),
-      curve: curve,
+      curve: curve!,
       vsync: this,
     );
 
@@ -79,8 +79,8 @@ class _HomePageState extends State<HomePage> with
   );
 
   Widget get _animatedContainer => Container(
-    width: 200 - (_animation.value * 50),
-    height: 100 + (_animation.value * 100),
+    width: 200 - (_animation.value * 50) as double?,
+    height: 100 + (_animation.value * 100) as double?,
     decoration: BoxDecoration(
       color: Colors.teal,
       borderRadius: BorderRadius.all(
@@ -94,8 +94,8 @@ class _HomePageState extends State<HomePage> with
     child: Transform(
       alignment: Alignment.topCenter,
       child: Container(
-        width: 200 - (_animation.value * 50),
-        height: 100 + (_animation.value * 20),
+        width: 200 - (_animation.value * 50) as double?,
+        height: 100 + (_animation.value * 20) as double?,
         decoration: BoxDecoration(
           color: _colorAnimation.value,
           borderRadius: BorderRadius.all(

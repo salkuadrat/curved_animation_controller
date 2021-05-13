@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 
 class FlipDrawer extends StatefulWidget {
 
-  final String title;
-  final Widget drawer;
-  final Widget child;
+  final String? title;
+  final Widget? drawer;
+  final Widget? child;
 
-  const FlipDrawer({Key key, this.title, this.drawer, this.child}) : super(key: key);
+  const FlipDrawer({Key? key, this.title, this.drawer, this.child}) : super(key: key);
 
-  static _FlipDrawerState of(BuildContext context) =>
+  static _FlipDrawerState? of(BuildContext context) =>
     context.findAncestorStateOfType<_FlipDrawerState>();
   
   @override
@@ -25,8 +25,8 @@ class _FlipDrawerState extends State<FlipDrawer>
   final double _offsetFromRight = 60.0;
   bool _canBeDragged = false;
 
-  CurvedAnimationController _animation;
-  CurvedAnimationController _menuAnimation;
+  late CurvedAnimationController _animation;
+  late CurvedAnimationController _menuAnimation;
 
   double get _maxSlide => MediaQuery.of(context).size.width - _offsetFromRight;
 
@@ -46,12 +46,12 @@ class _FlipDrawerState extends State<FlipDrawer>
   _initAnimation() {
     _animation = CurvedAnimationController(
       vsync: this, duration: Duration(milliseconds: 250),
-      curve: curve, // curve value from shared.dart
+      curve: curve!, // curve value from shared.dart
     );
 
     _menuAnimation = CurvedAnimationController(
       vsync: this, duration: Duration(milliseconds: 250),
-      curve: curve,
+      curve: curve!,
     );
     
     _animation.addListener(() => setState(() {}));
@@ -63,12 +63,12 @@ class _FlipDrawerState extends State<FlipDrawer>
   }
 
   open() {
-    _animation?.start();
-    _menuAnimation?.start();
+    _animation.start();
+    _menuAnimation.start();
   }
   close() {
-    _animation?.reverse();
-    _menuAnimation?.reverse();
+    _animation.reverse();
+    _menuAnimation.reverse();
   }
 
   toggle() => _animation.isDismissed ? open() : close();
@@ -82,7 +82,7 @@ class _FlipDrawerState extends State<FlipDrawer>
 
   _onDragUpdate(DragUpdateDetails details) {
     if(_canBeDragged) {
-      double delta = details.primaryDelta / _maxSlide;
+      double delta = details.primaryDelta! / _maxSlide;
       _animation.progress += delta;
       _menuAnimation.progress += delta;
     }
@@ -98,8 +98,8 @@ class _FlipDrawerState extends State<FlipDrawer>
     if (details.velocity.pixelsPerSecond.dx.abs() >= _kMinFlingVelocity) {
       double visualVelocity = 
         details.velocity.pixelsPerSecond.dx / MediaQuery.of(context).size.width;
-      _animation?.fling(velocity: visualVelocity);
-      _menuAnimation?.fling(velocity: visualVelocity);
+      _animation.fling(velocity: visualVelocity);
+      _menuAnimation.fling(velocity: visualVelocity);
 
     } else if (_animation.progress < 0.5) {
       close();
@@ -155,7 +155,7 @@ class _FlipDrawerState extends State<FlipDrawer>
                 left: _animation.value * MediaQuery.of(context).size.width,
                 width: MediaQuery.of(context).size.width,
                 child: Text(
-                  widget.title,
+                  widget.title!,
                   style: Theme.of(context).primaryTextTheme.headline6,
                   textAlign: TextAlign.center,
                 ),

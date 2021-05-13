@@ -22,4 +22,6 @@
 
 * Fixing a little bug on default curves
 
+## [1.1.0] - 13 May 2021
 
+* Migrate to null safety
