@@ -9,16 +9,14 @@ void main() {
 }
 
 class App extends StatefulWidget {
-
   static _AppState? of(BuildContext context) =>
-    context.findAncestorStateOfType<_AppState>();
-  
+      context.findAncestorStateOfType<_AppState>();
+
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  
   String _title = 'Curved Animation';
   Key _key = UniqueKey();
 
@@ -37,30 +35,29 @@ class _AppState extends State<App> {
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: isFlipDrawer 
-        ? FlipDrawer(title: _title, drawer: MenuDrawer(), child: HomePage()) 
-        : SlideDrawer(drawer: MenuDrawer(), child: HomePage(title: _title)),
+      home: isFlipDrawer
+          ? FlipDrawer(title: _title, drawer: MenuDrawer(), child: HomePage())
+          : SlideDrawer(drawer: MenuDrawer(), child: HomePage(title: _title)),
     );
   }
 }
 
 class MenuDrawer extends StatelessWidget {
-
   BoxDecoration get _gradient => BoxDecoration(
-    gradient: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      stops: [0.0, 1.0], 
-      colors: [
-        Color(0xFF43CEA2),
-        Color(0xFF1D6DBD),
-      ],
-    ),
-  );
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          stops: [0.0, 1.0],
+          colors: [
+            Color(0xFF43CEA2),
+            Color(0xFF1D6DBD),
+          ],
+        ),
+      );
 
   BoxDecoration get _color => BoxDecoration(
-    color: Colors.teal[500],
-  );
+        color: Colors.teal[500],
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -77,22 +74,24 @@ class MenuDrawer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                if(!isSlideDrawer) ListTile(
-                  leading: Icon(Icons.adjust),
-                  title: Text('Slide Drawer'),
-                  onTap: () {
-                    type = DrawerType.slide;
-                    App.of(context)!.restart();
-                  },
-                ),
-                if(!isFlipDrawer) ListTile(
-                  leading: Icon(Icons.adjust),
-                  title: Text('Flip Drawer'),
-                  onTap: () {
-                    type = DrawerType.flip;
-                    App.of(context)!.restart();
-                  },
-                ),
+                if (!isSlideDrawer)
+                  ListTile(
+                    leading: Icon(Icons.adjust),
+                    title: Text('Slide Drawer'),
+                    onTap: () {
+                      type = DrawerType.slide;
+                      App.of(context)!.restart();
+                    },
+                  ),
+                if (!isFlipDrawer)
+                  ListTile(
+                    leading: Icon(Icons.adjust),
+                    title: Text('Flip Drawer'),
+                    onTap: () {
+                      type = DrawerType.flip;
+                      App.of(context)!.restart();
+                    },
+                  ),
                 ListTile(
                   leading: Icon(Icons.rss_feed),
                   title: Text('News'),

@@ -62,12 +62,15 @@ class DropdownCurve extends DropdownButton<Curve> {
   final Curve? value;
   final Function(Curve?)? onChanged;
 
-  DropdownCurve({this.value, this.onChanged}) : super(
-    items: curves.map((item) => DropdownMenuItem(
-      child: Text('${item.name}'),
-      value: item.curve,
-    )).toList(),
-    onChanged: onChanged,
-    value: value,
-  );
+  DropdownCurve({this.value, this.onChanged})
+      : super(
+          items: curves
+              .map((item) => DropdownMenuItem(
+                    child: Text('${item.name}'),
+                    value: item.curve,
+                  ))
+              .toList(),
+          onChanged: onChanged,
+          value: value,
+        );
 }

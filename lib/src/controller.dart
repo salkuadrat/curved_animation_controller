@@ -2,12 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-class CurvedAnimationController<T> extends Listenable 
-  implements ValueListenable<T?> {
-
+class CurvedAnimationController<T> extends Listenable
+    implements ValueListenable<T?> {
   /// The value this variable has at the beginning of the animation.
   T? begin;
-  
+
   /// The value this variable has at the end of the animation.
   T? end;
 
@@ -22,7 +21,7 @@ class CurvedAnimationController<T> extends Listenable
   /// The value of [duration] us used if [reverseDuration] is not specified or
   /// set to null.
   final Duration? reverseDuration;
-  
+
   /// Curve for when the animation goes ahead
   final Curve curve;
 
@@ -50,7 +49,7 @@ class CurvedAnimationController<T> extends Listenable
   CurvedAnimationController({
     this.begin,
     this.end,
-    required this.curve, 
+    required this.curve,
     this.duration,
     this.reverseCurve,
     this.reverseDuration,
@@ -59,54 +58,59 @@ class CurvedAnimationController<T> extends Listenable
     required this.vsync,
   }) {
     _tween = Tween(begin: begin ?? 0.0, end: end ?? 1.0);
-    
+
     _controller = AnimationController(
-      vsync: vsync, 
+      vsync: vsync,
       animationBehavior: animationBehavior,
       debugLabel: debugLabel,
       reverseDuration: reverseDuration,
       duration: duration,
     );
-    
+
     _animation = _tween!.animate(CurvedAnimation(
-      parent: _controller, 
+      parent: _controller,
       curve: curve,
       reverseCurve: reverseCurve,
     ));
   }
 
-  CurvedAnimationController.sequence(List<SequenceItem> sequence, this.duration, {
-    this.curve = Curves.linear, 
-    this.reverseCurve = Curves.linear, 
+  CurvedAnimationController.sequence(
+    List<SequenceItem> sequence,
+    this.duration, {
+    this.curve = Curves.linear,
+    this.reverseCurve = Curves.linear,
     this.reverseDuration,
     this.debugLabel,
     this.animationBehavior = AnimationBehavior.normal,
     required this.vsync,
   }) {
-    _tweenSequence = TweenSequence(sequence.map((item) => TweenSequenceItem(
-        tween: Tween(begin: item.begin, end: item.end), 
-        weight: item.weight,
-      )
-    ).toList());
+    _tweenSequence = TweenSequence(sequence
+        .map((item) => TweenSequenceItem(
+              tween: Tween(begin: item.begin, end: item.end),
+              weight: item.weight,
+            ))
+        .toList());
 
     _controller = AnimationController(
-      vsync: vsync, 
+      vsync: vsync,
       animationBehavior: animationBehavior,
       debugLabel: debugLabel,
       reverseDuration: reverseDuration,
       duration: duration,
     );
-    
+
     _animation = _tweenSequence!.animate(CurvedAnimation(
-      parent: _controller, 
-      curve: curve, 
+      parent: _controller,
+      curve: curve,
       reverseCurve: reverseCurve,
     ));
   }
 
-  CurvedAnimationController.tween(Tween tween, this.duration, {
-    this.curve = Curves.linear, 
-    this.reverseCurve = Curves.linear, 
+  CurvedAnimationController.tween(
+    Tween tween,
+    this.duration, {
+    this.curve = Curves.linear,
+    this.reverseCurve = Curves.linear,
     this.reverseDuration,
     this.debugLabel,
     this.animationBehavior = AnimationBehavior.normal,
@@ -115,7 +119,7 @@ class CurvedAnimationController<T> extends Listenable
     _tween = tween;
 
     _controller = AnimationController(
-      vsync: vsync, 
+      vsync: vsync,
       debugLabel: debugLabel,
       animationBehavior: animationBehavior,
       reverseDuration: reverseDuration,
@@ -123,15 +127,17 @@ class CurvedAnimationController<T> extends Listenable
     );
 
     _animation = _tween!.animate(CurvedAnimation(
-      parent: _controller, 
-      curve: curve, 
+      parent: _controller,
+      curve: curve,
       reverseCurve: reverseCurve,
     ));
   }
 
-  CurvedAnimationController.tweenSequence(TweenSequence sequence, this.duration, {
-    this.curve = Curves.linear, 
-    this.reverseCurve = Curves.linear, 
+  CurvedAnimationController.tweenSequence(
+    TweenSequence sequence,
+    this.duration, {
+    this.curve = Curves.linear,
+    this.reverseCurve = Curves.linear,
     this.debugLabel,
     this.animationBehavior = AnimationBehavior.normal,
     this.reverseDuration,
@@ -140,7 +146,7 @@ class CurvedAnimationController<T> extends Listenable
     _tweenSequence = sequence;
 
     _controller = AnimationController(
-      vsync: vsync, 
+      vsync: vsync,
       debugLabel: debugLabel,
       animationBehavior: animationBehavior,
       reverseDuration: reverseDuration,
@@ -148,8 +154,8 @@ class CurvedAnimationController<T> extends Listenable
     );
 
     _animation = _tweenSequence!.animate(CurvedAnimation(
-      parent: _controller, 
-      curve: curve, 
+      parent: _controller,
+      curve: curve,
       reverseCurve: reverseCurve,
     ));
   }
@@ -246,7 +252,8 @@ class CurvedAnimationController<T> extends Listenable
   /// regardless of whether `target` > [value] or not. At the end of the
   /// animation, when `target` is reached, [status] is reported as
   /// [AnimationStatus.completed].
-  TickerFuture animateTo(double target, { Duration? duration, Curve curve = Curves.linear }) {
+  TickerFuture animateTo(double target,
+      {Duration? duration, Curve curve = Curves.linear}) {
     return _controller.animateTo(target, duration: duration, curve: curve);
   }
 
@@ -262,7 +269,8 @@ class CurvedAnimationController<T> extends Listenable
   /// regardless of whether `target` < [value] or not. At the end of the
   /// animation, when `target` is reached, [status] is reported as
   /// [AnimationStatus.dismissed].
-  TickerFuture animateBack(double target, { Duration? duration, Curve curve = Curves.linear }) {
+  TickerFuture animateBack(double target,
+      {Duration? duration, Curve curve = Curves.linear}) {
     return _controller.animateBack(target, duration: duration, curve: curve);
   }
 
@@ -287,8 +295,10 @@ class CurvedAnimationController<T> extends Listenable
   /// The most recently returned [TickerFuture], if any, is marked as having been
   /// canceled, meaning the future never completes and its [TickerFuture.orCancel]
   /// derivative future completes with a [TickerCanceled] error.
-  TickerFuture repeat({ double? min, double? max, bool reverse = false, Duration? period }) {
-    return _controller.repeat(min: min, max: max, reverse: reverse, period: period);
+  TickerFuture repeat(
+      {double? min, double? max, bool reverse = false, Duration? period}) {
+    return _controller.repeat(
+        min: min, max: max, reverse: reverse, period: period);
   }
 
   /// Drives the animation with a critically damped spring (within [lowerBound]
@@ -302,8 +312,10 @@ class CurvedAnimationController<T> extends Listenable
   /// The most recently returned [TickerFuture], if any, is marked as having been
   /// canceled, meaning the future never completes and its [TickerFuture.orCancel]
   /// derivative future completes with a [TickerCanceled] error.
-  TickerFuture fling({ double velocity = 1.0, AnimationBehavior? animationBehavior }) {
-    return _controller.fling(velocity: velocity, animationBehavior: animationBehavior);
+  TickerFuture fling(
+      {double velocity = 1.0, AnimationBehavior? animationBehavior}) {
+    return _controller.fling(
+        velocity: velocity, animationBehavior: animationBehavior);
   }
 
   /// Drives the animation according to the given simulation.
@@ -326,7 +338,7 @@ class CurvedAnimationController<T> extends Listenable
 
   /// Sets the controller's value to [begin], stopping the animation (if
   /// in progress), and resetting to its beginning point, or dismissed state.
-  /// 
+  ///
   /// The most recently returned [TickerFuture], if any, is marked as having been
   /// canceled, meaning the future never completes and its [TickerFuture.orCancel]
   /// derivative future completes with a [TickerCanceled] error.
@@ -359,7 +371,7 @@ class CurvedAnimationController<T> extends Listenable
   ///    and which does send notifications.
   ///  * [start], [forward], [reverse], [animateTo], [animateWith], [fling], and [repeat],
   ///    which restart the animation controller.
-  void stop({ bool canceled = true }) {
+  void stop({bool canceled = true}) {
     _controller.stop(canceled: canceled);
   }
 
@@ -384,7 +396,7 @@ class CurvedAnimationController<T> extends Listenable
   void addListener(Function listener) {
     _controller.addListener(listener as void Function());
   }
-  
+
   /// Stop calling the listener every time the value of the animation changes.
   ///
   /// Listeners can be added with [addListener].

@@ -6,28 +6,35 @@ An easy way to use AnimationController with Curve.
 
 ## Getting Started
 
-You should ensure that you add the controller as a dependency in your flutter project.
+Add dependency in your flutter project.
+
+```
+$ flutter pub add curved_animation_controller
+```
+
+or
 
 ```yaml
 dependencies:
-  curved_animation_controller: ^1.1.0
+  curved_animation_controller: ^1.1.0+1
 ```
 
-You can also reference the git repo directly if you want:
+or
+
 ```yaml
 dependencies:
   curved_animation_controller:
     git: https://github.com/salkuadrat/curved_animation_controller.git
 ```
 
-You should then run `flutter packages upgrade` or update your packages in IntelliJ.
+Then run `flutter pub get`.
 
-## Example Project
+## Example
 
-There is a nice example project in the `example` folder. 
-Check it out. Otherwise, keep reading to get up and running.
+There is a nice example project in the [example folder](example). 
+Check it out to learn how to use Curved Animation Controller.
 
-## Using
+## Usage
 
 Here is a snippet of code we usually use when we want to do some animation with curve.
 

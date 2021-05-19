@@ -11,22 +11,21 @@ class SlideDrawer extends StatefulWidget {
   const SlideDrawer({Key? key, this.drawer, this.child}) : super(key: key);
 
   static _SlideDrawerState? of(BuildContext context) =>
-    context.findAncestorStateOfType<_SlideDrawerState>();
-  
+      context.findAncestorStateOfType<_SlideDrawerState>();
+
   @override
   _SlideDrawerState createState() => _SlideDrawerState();
 }
 
-class _SlideDrawerState extends State<SlideDrawer> 
-  with TickerProviderStateMixin {
-  
+class _SlideDrawerState extends State<SlideDrawer>
+    with TickerProviderStateMixin {
   bool _canBeDragged = false;
   double _offsetFromRight = 60;
   double _minDragStartEdge = 60;
 
   double get _maxSlide => MediaQuery.of(context).size.width - _offsetFromRight;
   double get _maxDragStartEdge => _maxSlide - 16;
-  
+
   late CurvedAnimationController _animation;
 
   @override
@@ -40,7 +39,7 @@ class _SlideDrawerState extends State<SlideDrawer>
     _animation.dispose();
     super.dispose();
   }
-  
+
   _initAnimation() {
     _animation = CurvedAnimationController(
       vsync: this, duration: Duration(milliseconds: 250),
@@ -59,14 +58,12 @@ class _SlideDrawerState extends State<SlideDrawer>
   toggle() => _animation.isCompleted ? close() : open();
 
   _onDragStart(DragStartDetails details) {
-    bool isDragOpenFromLeft = 
-      _animation.isDismissed && 
-      details.globalPosition.dx < _minDragStartEdge;
-    
-    bool isDragCloseFromRight = 
-      _animation.isCompleted && 
-      details.globalPosition.dx > _maxDragStartEdge;
-    
+    bool isDragOpenFromLeft =
+        _animation.isDismissed && details.globalPosition.dx < _minDragStartEdge;
+
+    bool isDragCloseFromRight =
+        _animation.isCompleted && details.globalPosition.dx > _maxDragStartEdge;
+
     _canBeDragged = isDragOpenFromLeft || isDragCloseFromRight;
   }
 
@@ -86,10 +83,9 @@ class _SlideDrawerState extends State<SlideDrawer>
     }
 
     if (details.velocity.pixelsPerSecond.dx.abs() >= _kMinFlingVelocity) {
-      double visualVelocity = 
-        details.velocity.pixelsPerSecond.dx / MediaQuery.of(context).size.width;
+      double visualVelocity = details.velocity.pixelsPerSecond.dx /
+          MediaQuery.of(context).size.width;
       _animation.fling(velocity: visualVelocity);
-
     } else if (_animation.value < 0.5) {
       close();
     } else {
@@ -99,14 +95,12 @@ class _SlideDrawerState extends State<SlideDrawer>
 
   @override
   Widget build(BuildContext context) {
-    
-
     return WillPopScope(
       onWillPop: () async {
         if (_animation.isCompleted) {
           close();
           return Future.value(false);
-        }  
+        }
         return Future.value(true);
       },
       child: GestureDetector(

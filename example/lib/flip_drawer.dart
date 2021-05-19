@@ -5,23 +5,21 @@ import 'package:example/shared.dart';
 import 'package:flutter/material.dart';
 
 class FlipDrawer extends StatefulWidget {
-
   final String? title;
   final Widget? drawer;
   final Widget? child;
 
-  const FlipDrawer({Key? key, this.title, this.drawer, this.child}) : super(key: key);
+  const FlipDrawer({Key? key, this.title, this.drawer, this.child})
+      : super(key: key);
 
   static _FlipDrawerState? of(BuildContext context) =>
-    context.findAncestorStateOfType<_FlipDrawerState>();
-  
+      context.findAncestorStateOfType<_FlipDrawerState>();
+
   @override
   _FlipDrawerState createState() => _FlipDrawerState();
 }
 
-class _FlipDrawerState extends State<FlipDrawer> 
-  with TickerProviderStateMixin {
-
+class _FlipDrawerState extends State<FlipDrawer> with TickerProviderStateMixin {
   final double _offsetFromRight = 60.0;
   bool _canBeDragged = false;
 
@@ -50,10 +48,11 @@ class _FlipDrawerState extends State<FlipDrawer>
     );
 
     _menuAnimation = CurvedAnimationController(
-      vsync: this, duration: Duration(milliseconds: 250),
+      vsync: this,
+      duration: Duration(milliseconds: 250),
       curve: curve!,
     );
-    
+
     _animation.addListener(() => setState(() {}));
     _menuAnimation.addListener(() => setState(() {}));
   }
@@ -66,6 +65,7 @@ class _FlipDrawerState extends State<FlipDrawer>
     _animation.start();
     _menuAnimation.start();
   }
+
   close() {
     _animation.reverse();
     _menuAnimation.reverse();
@@ -81,7 +81,7 @@ class _FlipDrawerState extends State<FlipDrawer>
   }
 
   _onDragUpdate(DragUpdateDetails details) {
-    if(_canBeDragged) {
+    if (_canBeDragged) {
       double delta = details.primaryDelta! / _maxSlide;
       _animation.progress += delta;
       _menuAnimation.progress += delta;
@@ -96,11 +96,10 @@ class _FlipDrawerState extends State<FlipDrawer>
     }
 
     if (details.velocity.pixelsPerSecond.dx.abs() >= _kMinFlingVelocity) {
-      double visualVelocity = 
-        details.velocity.pixelsPerSecond.dx / MediaQuery.of(context).size.width;
+      double visualVelocity = details.velocity.pixelsPerSecond.dx /
+          MediaQuery.of(context).size.width;
       _animation.fling(velocity: visualVelocity);
       _menuAnimation.fling(velocity: visualVelocity);
-
     } else if (_animation.progress < 0.5) {
       close();
     } else {
@@ -166,7 +165,7 @@ class _FlipDrawerState extends State<FlipDrawer>
                 child: IconButton(
                   icon: AnimatedIcon(
                     icon: AnimatedIcons.menu_close,
-                    color: Colors.white, 
+                    color: Colors.white,
                     progress: _menuAnimation.controller,
                   ),
                   onPressed: toggle,
