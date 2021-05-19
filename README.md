@@ -38,7 +38,7 @@ Check it out to learn how to use Curved Animation Controller.
 
 Here is a snippet of code we usually use when we want to do some animation with curve.
 
-```
+```dart
 AnimationController _controller = AnimationController(
   vsync: this, 
   duration: Duration(milliseconds: 300),
@@ -66,7 +66,7 @@ Opacity(
 
 Using CurvedAnimationController, we can apply animation with a more straightforward code:
 
-```
+```dart
 CurvedAnimationController _animation = CurvedAnimationController(
   vsync: this, duration: Duration(milliseconds: 300),
   curve: Curves.easeInOut,
@@ -116,7 +116,7 @@ Container(
 
 Don't forget to dispose the controller properly:
 
-```
+```dart
 @override
 void dispose() {
   _animation.dispose();
@@ -126,7 +126,7 @@ void dispose() {
 
 ## Available Constructors
 
-```
+```dart
 CurvedAnimationController(
   begin: begin,
   end: end,
@@ -140,7 +140,7 @@ CurvedAnimationController(
 );
 ```
 
-```
+```dart
 CurvedAnimationController.tween(
   tween, // ex: ColorTween(begin: Colors.pink, end: Colors.teal)
   duration,
@@ -153,7 +153,7 @@ CurvedAnimationController.tween(
 );
 ```
 
-```
+```dart
 CurvedAnimationController.sequence(
   sequence, // list of sequence (List<SequenceItem>)
   duration,
@@ -166,7 +166,7 @@ CurvedAnimationController.sequence(
 );
 ```
 
-```
+```dart
 CurvedAnimationController.tweenSequence(
   sequence, // TweenSequence
   duration,
@@ -182,71 +182,85 @@ CurvedAnimationController.tweenSequence(
 ## Available Methods
 
 Start animation:
-```
+
+```dart
 start()
 ```
 
 or :
-```
+
+```dart
 forward()
 ```
 
 Start animation in reverse direction:
-```
+
+```dart
 reverse()
 ```
 
 Stop animation:
-```
+
+```dart
 stop()
 ```
 
 Start animation with fling effect:
-```
+
+```dart
 fling()
 ```
 
 Animate to specific target value:
-```
+
+```dart
 animateTo()
 ```
 
 Animate back to specific target value:
-```
+
+```dart
 animateBack()
 ```
 
 Reset animation:
-```
+
+```dart
 reset()
 ```
 
 Dispose animation controller:
-```
+
+```dart
 dispose()
 ```
 
 Add animation listener:
-```
+
+```dart
 addListener()
 ```
 
 Remove animation listener:
-```
+
+```dart
 removeListener()
 ```
 
 Add AnimationState listener:
-```
+
+```dart
 addStateListener()
 ```
 
 Remove AnimationState listener:
-```
+
+```dart
 removeStateListener()
 ```
 
 Notify all listeners:
-```
+
+```dart
 notifyListeners()
 ```
